@@ -9,7 +9,7 @@
     "start": "node server.js",
     "test": "npm run test:client && npm run test:server",
     "test:client": "mocha test/client --recursive --compilers js:babel-register",
-    "test:server": "NODE_ENV=test DB_NAME=clip-test mocha test/server --recursive --compilers js:babel-register"
+    "test:server": "NODE_ENV=test DB_NAME=hist-test mocha test/server --recursive --compilers js:babel-register"
   },
   "dependencies": {
     "async": "^1.5.2",

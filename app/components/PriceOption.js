@@ -16,7 +16,7 @@ class PriceOption extends React.Component {
           <ul className="pricing-table">
             <li className="title">{plan.name}</li>
             <li className="price">{plan.price}</li>
-            <li className="description">Perfect for an individual interested in how Clips can improve their workflow</li>
+            <li className="description">Perfect for an individual interested in how Hist can improve their workflow</li>
             <li className="bullet-item">{plan.users}</li>
             <li className="bullet-item">{plan.devices}</li>
             <li className="bullet-item">{plan.teams}</li>
