@@ -1,26 +1,46 @@
 var path = require('path');
 var webpack = require('webpack');
 
-var config = {
-  devtool: 'cheap-module-eval-source-map',
-  entry: [
-    'webpack/hot/dev-server',
-    'webpack-hot-middleware/client',
+const isProduction = process.env.NODE_ENV === 'production';
+
+
+if (isProduction) {
+  var entryPoints = [
     './app/main'
-  ],
-  output: {
-    path: path.join(__dirname, 'public', 'js'),
-    filename: 'bundle.js',
-    publicPath: '/js'
-  },
-  plugins: [
+  ];
+  var plugins = [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
-  ],
+  ];
+} else {
+  var entryPoints = [
+    'webpack/hot/dev-server',
+    'webpack-hot-middleware/client',
+    './app/main'
+  ];
+  var plugins = [
+    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    })
+  ];
+}
+
+
+var config = {
+  devtool: 'cheap-module-eval-source-map',
+  entry: entryPoints,
+  output: {
+    path: path.join(__dirname, 'public', 'js'),
+    filename: 'bundle.js',
+    publicPath: '/js'
+  },
+  plugins: plugins,
   module: {
     loaders: [
       {
