@@ -1,5 +1,5 @@
 {
-  "name": "rough-darkness",
+  "name": "hist-server",
   "version": "1.0.0",
   "description": "My app description",
   "scripts": {
@@ -9,8 +9,9 @@
     "start": "node server.js",
     "test": "npm run test:client && npm run test:server",
     "test:client": "mocha test/client --recursive --compilers js:babel-register",
-    "test:server": "NODE_ENV=test DB_NAME=hist-test mocha test/server --recursive --compilers js:babel-register"
+    "test:server": "NODE_ENV=test DB_NAME=clip-test mocha test/server --recursive --compilers js:babel-register"
   },
+  "main": "test-library.js",
   "dependencies": {
     "async": "^1.5.2",
     "babel-core": "^6.7.2",
@@ -27,6 +28,7 @@
     "dotenv": "^2.0.0",
     "express": "^4.13.4",
     "express-validator": "^2.20.4",
+    "hist-api": "file:../hist-api",
     "isomorphic-fetch": "^2.2.1",
     "jade": "^1.11.0",
     "jsonwebtoken": "^5.7.0",

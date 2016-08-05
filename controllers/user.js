@@ -39,7 +39,9 @@ exports.ensureAuthenticated = function(req, res, next) {
     }
 
     new User({ email: req.body.email })
-      .fetch()
+      .fetch({
+        withRelated: 'teams'
+      })
       .then(function(user) {
         if (!user) {
           return res.status(401).send({ msg: 'The email address ' + req.body.email + ' is not associated with any account. ' +
@@ -60,6 +62,7 @@ exports.ensureAuthenticated = function(req, res, next) {
  */
 exports.signupPost = function(req, res, next) {
   req.assert('account_name', 'Company name cannot be blank').notEmpty();
+  req.assert('team_display_name', 'Team name cannot be blank').notEmpty();
   req.assert('name', 'Name cannot be blank').notEmpty();
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('email', 'Email cannot be blank').notEmpty();
@@ -72,7 +75,7 @@ exports.signupPost = function(req, res, next) {
     return res.status(400).send(errors);
   }
 
-  User.registerWithAccount(req.body.account_name, req.body.name, req.body.email, req.body.password)
+  User.registerWithAccountAndTeam(req.body.account_name, req.body.team_display_name, req.body.name, req.body.email, req.body.password)
   .then(function(accountAndUser) {
     var user = accountAndUser.user
       , account = accountAndUser.account;

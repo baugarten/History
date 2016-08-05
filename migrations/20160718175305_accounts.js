@@ -5,9 +5,6 @@ exports.up = function(knex, Promise) {
       table.uuid('id').primary();
       table.string('name').notNullable();
       table.timestamps();
-    }),
-    knex.schema.withSchema('users', function(table) {
-      table.uuid('account_id').references('id').inTable('accounts');
     })
   ]);
 };

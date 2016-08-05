@@ -20,6 +20,7 @@ exports.clipGetList = function(req, res) {
  */
 exports.clipPost = function(req, res) {
   req.assert('clip', 'Clip cannot be blank').notEmpty();
+  req.assert('team_id', 'Team cannot be blank').notEmpty();
 
   var errors = req.validationErrors();
 
@@ -29,7 +30,8 @@ exports.clipPost = function(req, res) {
 
   req.user.clips()
     .create({
-      clip: req.body.clip
+      clip: req.body.clip,
+      team_id: req.body.team_id
     })
     .then(function(clip) {
       res.send({ clip: clip.toJSON() });

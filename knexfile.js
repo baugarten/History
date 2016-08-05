@@ -10,6 +10,9 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
   },
+  migrations: {
+    directory: `${__dirname}/migrations`
+  }
 };
 
 if (process.env.NODE_ENV === 'test') {

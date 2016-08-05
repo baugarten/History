@@ -45,24 +45,43 @@ describe('POST /api/v1/clip', function() {
     DbUtils.clean(knex).then(function() { done(); });
   });
 
-  it('should get clips', function(done) {
+  it('should create a new clip', function(done) {
     request(server)
       .post('/api/v1/clip')
       .set('Authorization', TestUtils.authToken())
       .send({
-        clip: "echo 'foo'"
+        clip: "echo 'foo'",
+        team_id: TestUtils.defaultTeam().get('id')
       })
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
         should(res.body.clip.clip).equal("echo 'foo'");
-        TestUtils.user().then(function(user) {
-          return user.clips().fetch();
-        }).then(function(clips) {
+        TestUtils.user().clips().fetch().then(function(clips) {
           should(clips).have.length(1);
           should(clips.at(0).get('clip')).equal("echo 'foo'");
           done(err);
         });
+      });
+  });
+
+  it('should error without a required parameters', function(done) {
+    request(server)
+      .post('/api/v1/clip')
+      .set('Authorization', TestUtils.authToken())
+      .send({
+      })
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end(function(err, res) {
+        should(res.body).deepEqual([
+          { param: 'clip', msg: 'Clip cannot be blank' },
+          { param: 'team_id', msg: 'Team cannot be blank' }
+        ]);
+        done(err);
       });
   });
 

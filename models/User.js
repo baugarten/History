@@ -26,7 +26,7 @@ var User = bookshelf.model('User', {
   },
 
   teams: function() {
-    return this.belongsToMany('Team');
+    return this.belongsToMany('Team', 'user_teams', 'user_id', 'team_id');
   },
 
   clips: function() {
@@ -68,6 +68,10 @@ var User = bookshelf.model('User', {
     return jwt.sign(payload, process.env.TOKEN_SECRET);
   },
 
+  addToTeam: function(team) {
+    this.teams().attach(team);
+  },
+
   virtuals: {
     gravatar: function() {
       if (!this.get('email')) {
@@ -78,7 +82,7 @@ var User = bookshelf.model('User', {
     }
   }
 }, {
-  registerWithAccount: function(accountName, name, email, password) {
+  registerWithAccountAndTeam: function(accountName, teamName, name, email, password) {
     var user = new User({
       name: name,
       email: email,
@@ -87,16 +91,28 @@ var User = bookshelf.model('User', {
     var account = new Account({
       name: accountName
     });
+    var team = new Team({
+      display_name: teamName
+    });
 
     return Promise.all([
       account.save(),
-      user.save()
+      user.save(),
+      team.save()
     ]).then(function(models) {
-      return models[0].users().attach(models[1]);
-    }).then(function(users) {
+      return Promise.all([
+        models[0].users().attach({
+          user_id: models[1].get('id'),
+          account_id: models[0].get('id'),
+          is_admin: true
+        }),
+        models[1].addToTeam(models[2])
+      ]);
+    }).then(function() {
       return {
         'account': account, 
-        'user': user
+        'user': user,
+        'team': team
       };
     })
   }
