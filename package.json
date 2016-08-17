@@ -28,7 +28,6 @@
     "dotenv": "^2.0.0",
     "express": "^4.13.4",
     "express-validator": "^2.20.4",
-    "hist-api": "file:../hist-api",
     "isomorphic-fetch": "^2.2.1",
     "jade": "^1.11.0",
     "jsonwebtoken": "^5.7.0",
