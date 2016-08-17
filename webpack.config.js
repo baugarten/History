@@ -3,13 +3,13 @@ var webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+console.log(`Webpack isProduction ${isProduction}`)
 
 if (isProduction) {
   var entryPoints = [
     './app/main'
   ];
   var plugins = [
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
@@ -23,6 +23,7 @@ if (isProduction) {
     './app/main'
   ];
   var plugins = [
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
@@ -31,6 +32,7 @@ if (isProduction) {
   ];
 }
 
+console.log(`Webpack entrypoints ${entryPoints}`);
 
 var config = {
   devtool: 'cheap-module-eval-source-map',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import Messages from './Messages';
-import Home from './Home'
+import Home from './Home2'
 
 class Hero extends React.Component {
   render() {

@@ -41,3 +41,23 @@ exports.clipPost = function(req, res) {
       res.status(500).send({ msg: 'Internal Error' });
     });
 };
+
+exports.clipGet = function(req, res) {
+  req.checkParams('id', 'Clip id must be a UUID').isUUID();
+
+  var errors = req.validationErrors();
+
+  if (errors) {
+    return res.status(400).send(errors);
+  }
+
+  new Clip({ id: req.params.id })
+    .fetch()
+    .then(function(clip) {
+      res.send({ clip: clip.toJSON() });
+    })
+    .catch(function(err) {
+      console.error("Error fetching clip", err);
+      res.status(500).send({ msg: 'Internal Error' });
+    });
+};

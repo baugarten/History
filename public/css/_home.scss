@@ -1,0 +1,12 @@
+
+.row-grey {
+    background: #f4f7f9;
+}
+
+.code-row {
+  padding: 2rem 0;
+
+  &:nth-child(2) {
+    background: #f4f7f9;
+  }
+}

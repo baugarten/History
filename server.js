@@ -33,10 +33,6 @@ var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var clipController = require('./controllers/clip');
 
-// React and Server-Side Rendering
-var routes = require('./app/routes');
-var configureStore = require('./app/store/configureStore').default;
-
 var app = express();
 
 var compiler = webpack(config);
@@ -75,11 +71,14 @@ app.use(function(req, res, next) {
 });
 
 if (app.get('env') === 'development') {
+  console.log('Using HMR in development');
   app.use(require('webpack-dev-middleware')(compiler, {
     stats: { colors: true },
     publicPath: config.output.publicPath
   }));
   app.use(require('webpack-hot-middleware')(compiler, { log: console.log }));
+} else {
+  console.log(`HMR disabled in ${app.get('env')}`);
 }
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -98,35 +97,40 @@ app.post('/auth/github', userController.authGithub);
 app.get('/auth/github/callback', userController.authGithubCallback);
 app.get('/api/v1/clip', userController.ensureAuthenticated, clipController.clipGetList);
 app.post('/api/v1/clip', userController.ensureAuthenticated, clipController.clipPost);
+app.get('/api/v1/clip/:id', userController.ensureAuthenticated, clipController.clipGet);
 
 // React server rendering
-app.use(function(req, res) {
-  var initialState = {
-    auth: { token: req.cookies.token, user: req.user },
-    messages: {}
-  };
+if (process.env.NODE_ENV !== 'test') {
+  var routes = require('./app/routes');
+  var configureStore = require('./app/store/configureStore').default;
+  app.use(function(req, res) {
+    var initialState = {
+      auth: { token: req.cookies.token, user: req.user },
+      messages: {}
+    };
 
-  var store = configureStore(initialState);
+    var store = configureStore(initialState);
 
-  let builtRoutes = routes.default(store);
-  Router.match({ routes: builtRoutes, location: req.url }, function(err, redirectLocation, renderProps) {
-    if (err) {
-      res.status(500).send(err.message);
-    } else if (redirectLocation) {
-      res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
-    } else if (renderProps && _.findIndex(renderProps.routes, function(route) { return route.path === "*" }) === -1) {
-      var html = ReactDOM.renderToString(React.createElement(Provider, { store: store },
-        React.createElement(Router.RouterContext, renderProps)
-      ));
-      res.render('layout', {
-        html: html,
-        initialState: store.getState()
-      });
-    } else {
-      res.sendStatus(404);
-    }
+    let builtRoutes = routes.default(store);
+    Router.match({ routes: builtRoutes, location: req.url }, function(err, redirectLocation, renderProps) {
+      if (err) {
+        res.status(500).send(err.message);
+      } else if (redirectLocation) {
+        res.status(302).redirect(redirectLocation.pathname + redirectLocation.search);
+      } else if (renderProps && _.findIndex(renderProps.routes, function(route) { return route.path === "*" }) === -1) {
+        var html = ReactDOM.renderToString(React.createElement(Provider, { store: store },
+          React.createElement(Router.RouterContext, renderProps)
+        ));
+        res.render('layout', {
+          html: html,
+          initialState: store.getState()
+        });
+      } else {
+        res.sendStatus(404);
+      }
+    });
   });
-});
+}
 
 if (app.get('env') === 'test') {
   app.use(function(err, req, res, next) {

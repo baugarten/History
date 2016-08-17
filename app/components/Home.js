@@ -6,9 +6,10 @@ class Home extends React.Component {
   render() {
     return (
       <div className="main-content expanded row">
+      Home!
         <Messages messages={this.props.messages}/>
         <div className="row">
-          <div className="medium-4 columns">
+          <div className="large-4 columns">
             <h3 className="content-header">
               <i className="fa fa-save"></i>
             </h3>
@@ -17,7 +18,7 @@ class Home extends React.Component {
             </p>
             <a href="#" role="button" className="button">View details</a>
           </div>
-          <div className="medium-4 columns">
+          <div className="large-4 columns">
             <h3 className="content-header">
               <i className="fa fa-share"></i>
             </h3>
@@ -26,7 +27,7 @@ class Home extends React.Component {
             </p>
             <a href="#" role="button" className="button">View details</a>
           </div>
-          <div className="medium-4 columns">
+          <div className="large-4 columns">
             <h3 className="content-header">
               <i className="fa fa-search"></i>
             </h3>
