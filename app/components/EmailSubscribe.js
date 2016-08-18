@@ -20,10 +20,10 @@ class EmailSubscribe extends React.Component {
   render() {
     return (
       <form className="row collapse" onSubmit={this.handleSubmit.bind(this)}>
-        <div className="small-8 columns">
+        <div className="medium-8 columns">
           <input type="email" name="email" id="email" value={this.state.email} placeholder="signup@example.com" onChange={this.handleChange.bind(this)}/>
         </div>
-        <div className="small-4 columns">
+        <div className="medium-4 columns">
           <button type="submit" className="postfix success button subscribe-button">Subscribe now</button>
         </div>
       </form>

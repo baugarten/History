@@ -14,7 +14,7 @@ class Home extends React.Component {
           <li><span className="command-confirmation">[saved]</span> <span className="command-hash">a8c6d49</span> - Sign in as billy the kid <span className="command-author">{'<'}baugarten{'>'}</span></li>
         </CommandItem>
         <div className="row-grey">
-          <CommandItem rightAction="true" action="List" icon="fa-list-ul">
+          <CommandItem action="List" icon="fa-list-ul">
             <li className="command">hist</li>
             <li>* <span className="command-hash">a8c6d49</span> - Sign in as billy the kid <span className="command-author">{'<'}baugarten{'>'}</span></li>
             <li>* <span className="command-hash">0136ffc</span> - retrieve saved commands via cURL <span className="command-author">{'<'}mjpowell{'>'}</span></li>

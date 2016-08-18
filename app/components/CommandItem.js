@@ -11,7 +11,7 @@ class CommandItem extends React.Component {
       codeClass = "large-10 large-pull-2 columns";
     } else {
       actionClass = "large-2 columns";
-      codeClass = "large-10 columns";
+      codeClass = "large-10 columns shell-wrap";
     }
     const iconClass = `fa ${this.props.icon}`;
 
@@ -34,8 +34,7 @@ class CommandItem extends React.Component {
 
 CommandItem.propTypes = {
   action: React.PropTypes.string.isRequired,
-  icon: React.PropTypes.string.isRequired,
-  command: React.PropTypes.string.isRequired
+  icon: React.PropTypes.string.isRequired
 }
 
 export default CommandItem;
