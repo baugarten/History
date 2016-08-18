@@ -5651,6 +5651,9 @@ table.hover tr:nth-of-type(even):hover {
   .shell-body .command-hash {
     color: #A9A823; }
 
+.subscribe-button {
+  width: 100%; }
+
 html {
   position: relative;
   min-height: 100%;

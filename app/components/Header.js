@@ -22,7 +22,8 @@ class Header extends React.Component {
           <li><a href="#" onClick={this.handleLogout.bind(this)}>Logout</a></li>
         </ul>
       </div>
-    ) : (
+    ) : (<div></div>);
+    /*
       <div className="top-bar-right">
         <ul className="vertical medium-horizontal menu">
           <li><Link to="/pricing" activeClassName="active">Pricing</Link></li>
@@ -31,9 +32,9 @@ class Header extends React.Component {
         </ul>
       </div>
     );
-    var barClassName = 'top-bar';
+   */
     return (
-      <div className={barClassName}>
+      <div className="top-bar">
         <div className="top-bar-title">
           <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
             <span className="menu-icon light" data-toggle></span>

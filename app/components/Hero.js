@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import Messages from './Messages';
 import Home from './Home2'
+import EmailSubscribe from './EmailSubscribe'
 
 class Hero extends React.Component {
   render() {
@@ -11,11 +12,11 @@ class Hero extends React.Component {
           <div className="header-image">
             <div className="hero-unit">
               <div className="row">
-                <div className="column large-6 end">
+                <div className="column large-8 end">
                   <h1 className="header-text">Bash History that works for your Team</h1>
                   <br />
                   <h3 className="header-text">Help developers and teams learn and communicate together effortlessly</h3>
-                  <a className="large success button" href="#">Learn More</a>
+                  <EmailSubscribe />
                   <br />
                 </div>
               </div>
@@ -23,6 +24,7 @@ class Hero extends React.Component {
           </div>
         </div>
         <Home />
+        <EmailSubscribe />
       </div>
     );
   }
