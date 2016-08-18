@@ -17,6 +17,7 @@ class Hero extends React.Component {
                   <br />
                   <h3 className="header-text">Help developers and teams learn and communicate together effortlessly</h3>
                   <EmailSubscribe />
+                  <Messages messages={this.props.messages}/>
                   <br />
                 </div>
               </div>
@@ -25,6 +26,7 @@ class Hero extends React.Component {
         </div>
         <Home />
         <EmailSubscribe />
+        <Messages messages={this.props.messages}/>
       </div>
     );
   }

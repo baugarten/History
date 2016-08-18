@@ -18,9 +18,8 @@ class CommandItem extends React.Component {
     return (<div className="row code-row">
       <div className={actionClass}>
         <h3 className="content-header">
+          <i className={iconClass}></i>&nbsp;
           {this.props.action}
-          <br />
-          <i className={iconClass}></i>
         </h3>
       </div>
       <div className={codeClass}>

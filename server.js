@@ -32,6 +32,7 @@ var User = require('./models/User');
 var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var clipController = require('./controllers/clip');
+var subscribeController = require('./controllers/subscribe');
 
 var app = express();
 
@@ -84,6 +85,7 @@ if (app.get('env') === 'development') {
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/contact', contactController.contactPost);
+app.post('/subscribe', subscribeController.subscribePost);
 app.put('/account', userController.ensureAuthenticated, userController.accountPut);
 app.delete('/account', userController.ensureAuthenticated, userController.accountDelete);
 app.post('/signup', userController.signupPost);

@@ -7,7 +7,6 @@ class Home extends React.Component {
   render() {
     return (
       <div className="main-content expanded row">
-        <Messages messages={this.props.messages}/>
         <CommandItem action="Save" icon="fa-save">
           <li className="command">curl -X POST -d '{'{'}"username": "billy", "password": "thekid"{'}'}' localhost:8080/users/sign_in</li>
           <li className="command">hist save -m "Sign in as billy the kid" !!</li>
@@ -17,7 +16,7 @@ class Home extends React.Component {
           <CommandItem action="List" icon="fa-list-ul">
             <li className="command">hist</li>
             <li>* <span className="command-hash">a8c6d49</span> - Sign in as billy the kid <span className="command-author">{'<'}baugarten{'>'}</span></li>
-            <li>* <span className="command-hash">0136ffc</span> - retrieve saved commands via cURL <span className="command-author">{'<'}mjpowell{'>'}</span></li>
+            <li>* <span className="command-hash">0136ffc</span> - retrieve saved commands via cURL <span className="command-author">{'<'}mpowell{'>'}</span></li>
             <li>* <span className="command-hash">aa2d5be</span> - save a new command via cURL <span className="command-author">{'<'}tsmith{'>'}</span></li>
           </CommandItem>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { submitContactForm } from '../actions/contact';
+import { submitSubscribeForm } from '../actions/subscribe';
 
 class EmailSubscribe extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class EmailSubscribe extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.dispatch(submitContactForm(this.state.name, this.state.email, this.state.message));
+    this.props.dispatch(submitSubscribeForm(this.state.email));
   }
 
   render() {
