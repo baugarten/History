@@ -24,11 +24,9 @@ class CommandItem extends React.Component {
         </h3>
       </div>
       <div className={codeClass}>
-        <pre>
-        <code>
+        <ul className="shell-body">
           {this.props.children}
-        </code>
-        </pre>
+        </ul>
       </div>
     </div>);
   }

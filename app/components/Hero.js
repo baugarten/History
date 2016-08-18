@@ -11,7 +11,7 @@ class Hero extends React.Component {
           <div className="header-image">
             <div className="hero-unit">
               <div className="row">
-                <div className="column small-6 end">
+                <div className="column large-6 end">
                   <h1 className="header-text">Bash History that works for your Team</h1>
                   <br />
                   <h3 className="header-text">Help developers and teams learn and communicate together effortlessly</h3>
