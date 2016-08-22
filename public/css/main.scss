@@ -221,6 +221,9 @@ code {
   margin: 1rem 1rem 1rem;
   > a {
     margin-left: 10px;
+    font-size: 2.5rem;
+    color: #3adb76;
+    font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
   }
 }
 
@@ -246,6 +249,11 @@ code {
 .header-text {
   margin-top: 2rem;
   color: #fff;
+}
+
+.subheader-text {
+  font-size: 1.8rem;
+  padding-bottom: 1rem;
 }
 
 .hero-unit {

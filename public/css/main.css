@@ -5739,7 +5739,10 @@ code {
 .top-bar-title {
   margin: 1rem 1rem 1rem; }
   .top-bar-title > a {
-    margin-left: 10px; }
+    margin-left: 10px;
+    font-size: 2.5rem;
+    color: #3adb76;
+    font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace; }
 
 .top-bar .menu > li > a {
   padding: 1.3rem 1rem; }
@@ -5756,6 +5759,10 @@ code {
 .header-text {
   margin-top: 2rem;
   color: #fff; }
+
+.subheader-text {
+  font-size: 1.8rem;
+  padding-bottom: 1rem; }
 
 .hero-unit {
   padding-top: 5rem;

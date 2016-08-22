@@ -15,7 +15,8 @@ class Hero extends React.Component {
                 <div className="column large-8 end">
                   <h1 className="header-text">Bash History that works for your Team</h1>
                   <br />
-                  <h3 className="header-text">Help developers and teams learn and communicate together effortlessly</h3>
+                  <h3 className="header-text subheader-text">Increase your team's efficiency by saving and sharing critical commands and workflows</h3>
+
                   <EmailSubscribe />
                   <Messages messages={this.props.messages}/>
                   <br />
