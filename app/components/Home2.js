@@ -16,7 +16,7 @@ class Home extends React.Component {
           <CommandItem action="List" icon="fa-list-ul">
             <li className="command">hist</li>
             <li>* <span className="command-hash">a8c6d49</span> - Sign in as billy the kid <span className="command-author">{'<'}baugarten{'>'}</span></li>
-            <li>* <span className="command-hash">0136ffc</span> - retrieve saved commands via cURL <span className="command-author">{'<'}mpowell{'>'}</span></li>
+            <li>* <span className="command-hash">0136ffc</span> - retrieve saved commands via cURL <span className="command-author">{'<'}mjones{'>'}</span></li>
             <li>* <span className="command-hash">aa2d5be</span> - save a new command via cURL <span className="command-author">{'<'}tsmith{'>'}</span></li>
           </CommandItem>
         </div>
