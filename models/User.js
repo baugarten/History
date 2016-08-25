@@ -26,7 +26,7 @@ var User = bookshelf.model('User', {
   },
 
   teams: function() {
-    return this.belongsToMany('Team', 'user_teams', 'user_id', 'team_id');
+    return this.belongsToMany('Team', 'user_teams', 'user_id', 'team_id').withPivot('is_admin');
   },
 
   clips: function() {
@@ -69,52 +69,73 @@ var User = bookshelf.model('User', {
   },
 
   addToTeam: function(team) {
-    this.teams().attach(team);
+    return this.teams().attach({
+      user_id: this.get('id'),
+      team_id: team.get('id'),
+      is_admin: true
+    });
   },
 
   virtuals: {
     gravatar: function() {
       if (!this.get('email')) {
-        return 'https://gravatar.com/avatar/?s=200&d=retro';
+        return 'https://gravatar.com/avatar/?d=retro';
       }
       var md5 = crypto.createHash('md5').update(this.get('email')).digest('hex');
-      return 'https://gravatar.com/avatar/' + md5 + '?s=200&d=retro';
+      return 'https://gravatar.com/avatar/' + md5 + '?d=retro';
     }
   }
 }, {
   registerWithAccountAndTeam: function(accountName, teamName, name, email, password) {
-    var user = new User({
-      name: name,
-      email: email,
-      password: password
-    });
-    var account = new Account({
-      name: accountName
-    });
-    var team = new Team({
-      display_name: teamName
-    });
+    return bookshelf.transaction(function(t) {
+      var user = new User({
+        name: name,
+        email: email,
+        password: password
+      });
+      var account = new Account({
+        name: accountName
+      });
+      var team = new Team({
+        display_name: teamName,
+      });
 
-    return Promise.all([
-      account.save(),
-      user.save(),
-      team.save()
-    ]).then(function(models) {
       return Promise.all([
-        models[0].users().attach({
-          user_id: models[1].get('id'),
-          account_id: models[0].get('id'),
-          is_admin: true
-        }),
-        models[1].addToTeam(models[2])
-      ]);
-    }).then(function() {
-      return {
-        'account': account, 
-        'user': user,
-        'team': team
-      };
-    })
+        account.save(null, { transacting: t }),
+        user.save(null, { transacting: t }),
+        team.save(null, { transacting: t })
+      ]).then(([account, user, team]) => {
+        return Promise.all([
+          account.users().attach({
+            user_id: user.get('id'),
+            account_id: account.get('id'),
+            is_admin: true
+          }, { 
+            transacting: t 
+          }),
+          user.teams().attach({
+            user_id: user.get('id'),
+            team_id: team.get('id'),
+            is_admin: true
+          }, {
+            transacting: t
+          }),
+          team.save({ 
+            account_id: account.get('id') 
+          }, { 
+            patch: true, 
+            method: 'update',
+            transacting: t
+          })
+        ]);
+      }).then(function() {
+        return {
+          'account': account, 
+          'user': user,
+          'team': team
+        };
+      })
+    });
   }
 });
 

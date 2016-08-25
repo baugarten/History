@@ -37,18 +37,18 @@ export function login(email, password) {
   };
 }
 
-export function signup(account_name, name, email, password) {
+function doSignup(path, body) {
   return (dispatch) => {
     dispatch({
       type: 'CLEAR_MESSAGES'
     });
-    return fetch('/signup', {
+    return fetch(path, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ account_name: account_name, name: name, email: email, password: password })
+      body: body
     }).then((response) => {
       return response.json().then((json) => {
-        if (response.ok) {
+        if (response.ok && json.token) {
           dispatch({
             type: 'SIGNUP_SUCCESS',
             token: json.token,
@@ -66,6 +66,14 @@ export function signup(account_name, name, email, password) {
     });
   };
 }
+
+export function signup(account_name, team_name, name, email, password) {
+  return doSignup('/signup', JSON.stringify({ account_name: account_name, team_display_name: team_name, name: name, email: email, password: password }));
+}
+
+export function signupWithInvitation(invitation_code, name, email, password) {
+  return doSignup(`/api/v1/invitation/${invitation_code}/signup`, JSON.stringify({name: name, email: email, password: password }));
+};
 
 export function logout() {
   cookie.remove('token');

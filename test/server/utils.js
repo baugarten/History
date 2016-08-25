@@ -15,3 +15,7 @@ exports.unhashedPassword = function() {
 exports.defaultTeam = function() {
   return seeds.team;
 };
+
+exports.defaultAccount = function() {
+  return seeds.account;
+};

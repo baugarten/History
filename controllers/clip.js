@@ -5,7 +5,9 @@ var Clip = require('../models/Clip');
  */
 exports.clipGetList = function(req, res) {
   req.user.clips()
-    .fetch()
+    .fetch({
+      withRelated: 'creator'
+    })
     .then(function(clips) {
       res.status(200).send({ clips: clips.toJSON() });
     })

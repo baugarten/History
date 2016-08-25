@@ -11,6 +11,9 @@ var Team = bookshelf.model('Team', {
       if (!model.get('id')) {
         model.set('id', uuid.v1());
       }
+      if (!model.get('short_name')) {
+        model.set('short_name', model.get('display_name').replace(/\W+/g, '-').toLowerCase());
+      }
     });
   },
 
@@ -18,6 +21,9 @@ var Team = bookshelf.model('Team', {
     return this.belongsToMany('User');
   },
 
+  account: function() {
+    return this.belongsTo('Account');
+  }
 });
 
 module.exports = Team;

@@ -35,19 +35,35 @@ describe('POST /signup', function() {
       .expect(200)
       .end(function(err, res) {
         should(res.body.token).be.a.token();
+        const team = res.body.user.teams[0];
+        should(team.short_name).equal('test-signup-team-');
+        should(team.display_name).equal('Test Signup Team!');
+        const account = res.body.user.accounts[0];
+        should(account.name).equal('Clips inc');
+
         var user = new User({
           id: res.body.user.id
         });
         user.fetch()
           .then(function(user) {
-            user.accounts()
-              .fetch()
-              .then(function(accounts) {
-                should(accounts).have.length(1);
-                should(accounts.at(0).get('name')).equal('Clips inc');
-                should(accounts.at(0).pivot.get('is_admin')).equal(true);
-                done(err);
-              });
+            return Promise.all([
+              user.accounts().fetch(),
+              user.teams().fetch(),
+            ]).then(([accounts, teams]) => {
+              should(accounts).have.length(1);
+              should(accounts.at(0).get('name')).equal('Clips inc');
+              should(accounts.at(0).pivot.get('is_admin')).equal(true);
+              should(teams).have.length(1);
+              should(teams.at(0).get('display_name')).equal('Test Signup Team!');
+              should(teams.at(0).get('short_name')).equal('test-signup-team-');
+              should(teams.at(0).get('account_id')).equal(accounts.at(0).get('id'));
+              should(teams.at(0).pivot.get('is_admin')).equal(true);
+              return teams.at(0).account().fetch();
+            }).then((account) => {
+              should(account).be.defined;
+              should(account.get('name')).equal('Clips inc');
+              done(err);
+            });
           });
 
       });
@@ -70,6 +86,9 @@ describe('POST /signup', function() {
         should(team.id).equal(TestUtils.defaultTeam().get('id'));
         should(team.short_name).equal(TestUtils.defaultTeam().get('short_name'));
         should(team.display_name).equal(TestUtils.defaultTeam().get('display_name'));
+        const account = res.body.user.accounts[0];
+        should(account.id).equal(TestUtils.defaultAccount().get('id'));
+        should(account.name).equal(TestUtils.defaultAccount().get('name'));
         done(err);
       });
   });

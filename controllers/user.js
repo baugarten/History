@@ -7,8 +7,9 @@ var request = require('request');
 var qs = require('querystring');
 var Account = require('../models/Account');
 var User = require('../models/User');
+var Invitation = require('../models/Invitation');
 
-function generateToken(user) {
+export function generateToken(user) {
   return user.generateToken();
 }
 
@@ -19,6 +20,7 @@ exports.ensureAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
     next();
   } else {
+    console.log('Not authenticated', req.isAuthenticated);
     res.status(401).send({ msg: 'Unauthorized' });
   }
 };
@@ -40,7 +42,7 @@ exports.ensureAuthenticated = function(req, res, next) {
 
     new User({ email: req.body.email })
       .fetch({
-        withRelated: 'teams'
+        withRelated: ['teams', 'accounts'],
       })
       .then(function(user) {
         if (!user) {
@@ -77,14 +79,21 @@ exports.signupPost = function(req, res, next) {
 
   User.registerWithAccountAndTeam(req.body.account_name, req.body.team_display_name, req.body.name, req.body.email, req.body.password)
   .then(function(accountAndUser) {
-    var user = accountAndUser.user
-      , account = accountAndUser.account;
-    return res.send({ token: generateToken(user), account: account.toJSON(), user: user.toJSON() });
+    var token = generateToken(accountAndUser.user)
+      , user = accountAndUser.user.toJSON()
+      , account = accountAndUser.account
+      , team = accountAndUser.team;
+    user.accounts = [account.toJSON()];
+    user.teams = [team.toJSON()];
+
+    return res.send({ token: token, user: user });
   })
   .catch(function(err) {
     if (err.code === 'ER_DUP_ENTRY' || err.code === '23505') {
       return res.status(400).send({ msg: 'The email address you have entered is already associated with another account.' });
     }
+    console.error('Error creating user', err);
+    return res.status(500);
   });
 };
 
@@ -440,3 +449,4 @@ exports.authGithub = function(req, res) {
 exports.authGithubCallback = function(req, res) {
   res.render('loading');
 };
+

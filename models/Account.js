@@ -16,6 +16,10 @@ var Account = bookshelf.model('Account', {
 
   users: function() {
     return this.belongsToMany('User', 'user_accounts', 'account_id', 'user_id');
+  },
+
+  teams: function() {
+    return this.hasMany('Team');
   }
 });
 

@@ -8,7 +8,7 @@ import Messages from '../Messages';
 class Signup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { account_name: '', name: '', email: '', password: '' };
+    this.state = { account_name: '', team_name: '', name: '', email: '', password: '' };
   }
 
   handleChange(event) {
@@ -17,7 +17,7 @@ class Signup extends React.Component {
 
   handleSignup(event) {
     event.preventDefault();
-    this.props.dispatch(signup(this.state.account_name, this.state.name, this.state.email, this.state.password));
+    this.props.dispatch(signup(this.state.account_name, this.state.team_name, this.state.name, this.state.email, this.state.password));
   }
 
   handleFacebook() {
@@ -40,6 +40,10 @@ class Signup extends React.Component {
     this.props.dispatch(githubLogin())
   }
 
+  teamShortName() {
+    return this.state.team_name.replace(/\W+/g, '-').toLowerCase();
+  }
+
   render() {
     let selectedPlan = this.props.plan;
     return (
@@ -57,6 +61,10 @@ class Signup extends React.Component {
               </div>
               <label htmlFor="account_name">Company Name</label>
               <input type="text" name="account_name" id="account_name" placeholder="My Company" value={this.state.account_name} onChange={this.handleChange.bind(this)} autoFocus/>
+              <label htmlFor="team_name">Team Name</label>
+              <input type="text" name="team_name" id="team_name" placeholder="Backend Developers" value={this.state.team_name} onChange={this.handleChange.bind(this)} />
+              <label htmlFor="team_name">Short Name</label>
+              <input type="text" name="short_name" id="short_name" placeholder="backend-developers" value={this.teamShortName()} disabled />
               <label htmlFor="name">Name</label>
               <input type="text" name="name" id="name" placeholder="Name" value={this.state.name} onChange={this.handleChange.bind(this)} />
               <label htmlFor="email">Email</label>

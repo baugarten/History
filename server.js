@@ -33,6 +33,9 @@ var userController = require('./controllers/user');
 var contactController = require('./controllers/contact');
 var clipController = require('./controllers/clip');
 var subscribeController = require('./controllers/subscribe');
+var teamController = require('./controllers/team');
+var accountController = require('./controllers/account');
+var invitationController = require('./controllers/invitation');
 
 var app = express();
 
@@ -59,11 +62,18 @@ app.use(function(req, res, next) {
   };
 
   if (req.isAuthenticated()) {
+    console.log('Authenticated Request');
     var payload = req.isAuthenticated();
     new User({ id: payload.sub })
-      .fetch()
+      .fetch({withRelated: ['accounts', 'teams']})
       .then(function(user) {
         req.user = user;
+        if (!req.user) {
+          console.log('Authenticated Request but couldnt find the user!!!', payload.sub);
+          req.isAuthenticated = function() {
+            return false;
+          }
+        }
         next();
       });
   } else {
@@ -100,14 +110,19 @@ app.get('/auth/github/callback', userController.authGithubCallback);
 app.get('/api/v1/clip', userController.ensureAuthenticated, clipController.clipGetList);
 app.post('/api/v1/clip', userController.ensureAuthenticated, clipController.clipPost);
 app.get('/api/v1/clip/:id', userController.ensureAuthenticated, clipController.clipGet);
+app.get('/api/v1/team', userController.ensureAuthenticated, teamController.teamGetList);
+app.get('/api/v1/account/:id', userController.ensureAuthenticated, accountController.accountGet);
+app.post('/api/v1/invitation', userController.ensureAuthenticated, invitationController.sendInvitation);
+app.get('/api/v1/invitation/:code', invitationController.getInvitation);
+app.post('/api/v1/invitation/:code/signup', invitationController.signupWithInvitation);
 
 // React server rendering
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.CLIENT_ENV !== 'test') {
   var routes = require('./app/routes');
   var configureStore = require('./app/store/configureStore').default;
   app.use(function(req, res) {
     var initialState = {
-      auth: { token: req.cookies.token, user: req.user },
+      auth: { token: req.cookies.token, user: req.user && req.user.toJSON() },
       messages: {}
     };
 
@@ -135,6 +150,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 if (app.get('env') === 'test') {
+  console.log('Using error reporting in test env');
   app.use(function(err, req, res, next) {
     console.error(err.stack);
     next(err);
