@@ -64,7 +64,7 @@ export function sendInvitation(token, emailAddress, account, team) {
       method: 'post',
       credentials: 'include',
       headers: { 
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
