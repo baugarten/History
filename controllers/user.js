@@ -20,7 +20,6 @@ exports.ensureAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
     next();
   } else {
-    console.log('Not authenticated', req.isAuthenticated);
     res.status(401).send({ msg: 'Unauthorized' });
   }
 };

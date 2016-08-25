@@ -17,7 +17,6 @@ class Header extends React.Component {
   render() {
     var rightNav;
     if (this.props.user && this.props.user) {
-      console.log('Header', this.props.user, this.props.token)
       const account = this.props.user.accounts && this.props.user.accounts[0];
       const accountUrl = `/accounts/${account.id}`
       rightNav = (

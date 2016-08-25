@@ -52,7 +52,7 @@ export function selectPricingPlan(plan) {
   };
 }
 
-export function sendInvitation(emailAddress, account, team) {
+export function sendInvitation(token, emailAddress, account, team) {
   return (dispatch) => {
     dispatch({
       type: 'SEND_INVITATION',
@@ -63,7 +63,10 @@ export function sendInvitation(emailAddress, account, team) {
     return fetch('/api/v1/invitation', {
       method: 'post',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json' 
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify({
         email: emailAddress,
         account_id: account.id,
@@ -78,9 +81,7 @@ export function sendInvitation(emailAddress, account, team) {
           });
         });
       } else {
-        console.log('Req failed');
         return response.json().then((json) => {
-          console.log('SEND_INVITATION_FAILURE');
           dispatch({
             type: 'SEND_INVITATION_FAILURE',
             messages: Array.isArray(json) ? json : [json]

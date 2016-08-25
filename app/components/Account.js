@@ -38,7 +38,7 @@ class Account extends React.Component {
 
   handleInviteUser(event) {
     event.preventDefault();
-    this.props.dispatch(sendInvitation(this.state.email, this.state.account));
+    this.props.dispatch(sendInvitation(this.props.token, this.state.email, this.state.account));
   }
 
 

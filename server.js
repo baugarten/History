@@ -62,14 +62,12 @@ app.use(function(req, res, next) {
   };
 
   if (req.isAuthenticated()) {
-    console.log('Authenticated Request');
     var payload = req.isAuthenticated();
     new User({ id: payload.sub })
       .fetch({withRelated: ['accounts', 'teams']})
       .then(function(user) {
         req.user = user;
         if (!req.user) {
-          console.log('Authenticated Request but couldnt find the user!!!', payload.sub);
           req.isAuthenticated = function() {
             return false;
           }
