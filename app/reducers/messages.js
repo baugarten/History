@@ -12,6 +12,7 @@ export default function messages(state = {}, action) {
     case 'UNLINK_FAILURE':
     case 'LINK_FAILURE':
     case 'SEND_INVITATION_FAILURE':
+    case 'CREATE_TEAM_FAILURE':
       return {
         error: action.messages
       };
@@ -21,6 +22,7 @@ export default function messages(state = {}, action) {
     case 'CONTACT_FORM_SUCCESS':
     case 'SUBSCRIBE_FORM_SUCCESS':
     case 'SEND_INVITATION_SUCCESS':
+    case 'CREATE_TEAM_SUCCESS':
       return {
         success: action.messages
       };

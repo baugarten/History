@@ -1,35 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { sendInvitation } from '../actions/nux';
+import { createTeam } from '../actions/team';
+import { fetchAccount } from '../actions/account';
 import Messages from './Messages';
 
 class Account extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { account: { }, teams: [], users: [], isAdmin: false, email: '', team_name: '' };
+    this.state = { email: '', team_name: '' };
   }
 
   componentDidMount() {
-    fetch(`/api/v1/account/${this.props.params.id}`, {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.props.token}`
-      }
-    }).then((response) => {
-      if (response.ok) {
-        return response.json().then((json) => {
-          this.setState({
-            account: json.account,
-            teams: json.account.teams,
-            users: json.account.users,
-            isAdmin: json.account._pivot_is_admin
-          });
-        });
-      } else {
-        alert('Failed to load account information');
-      }
-    });
+    this.props.dispatch(fetchAccount(this.props.token, this.props.params.id));
   }
 
   handleChange(event) {
@@ -38,18 +21,32 @@ class Account extends React.Component {
 
   handleInviteUser(event) {
     event.preventDefault();
-    this.props.dispatch(sendInvitation(this.props.token, this.state.email, this.state.account));
+    this.props.dispatch(sendInvitation(this.props.token, this.state.email, this.props.account));
   }
 
+  handleCreateTeam(event) {
+    event.preventDefault();
+    this.props.dispatch(createTeam(this.props.token, this.props.params.id, this.state.team_name));
+  }
+
+  users() {
+    return (this.props.account && this.props.account.users) || [];
+  }
+
+  teams() {
+    return (this.props.account && this.props.account.teams) || [];
+  }
 
   render() {
+    let users = this.users()
+    let teams = this.teams()
     return (
       <div className="column row">
         <Messages messages={this.props.messages}/>
         <h3>
-          Users ({this.state.users.length}):
+          Users ({users.length}):
         </h3>
-        <Table data={this.state.users} component={UserComponent} />
+        <Table data={users} component={UserComponent} />
         <form className="row collapse" onSubmit={this.handleInviteUser.bind(this)}>
           <div className="medium-4 columns">
             <input type="email" name="email" id="email" value={this.state.email} placeholder="invite@example.com" onChange={this.handleChange.bind(this)}/>
@@ -62,9 +59,9 @@ class Account extends React.Component {
           </div>
         </form>
 
-        <h3>Teams ({this.state.teams.length}):</h3>
-        <Table data={this.state.teams} component={TeamComponent} />
-        <form className="row collapse">
+        <h3>Teams ({teams.length}):</h3>
+        <Table data={teams} component={TeamComponent} />
+        <form className="row collapse" onSubmit={this.handleCreateTeam.bind(this)}>
           <div className="medium-4 columns">
             <input type="text" name="team_name" id="team_name" value={this.state.team_name} placeholder="Backend Team" onChange={this.handleChange.bind(this)}/>
           </div>
@@ -134,7 +131,6 @@ class UserComponent extends TableRowComponent {
       ['Name', this.attribute('name')], 
       ['Email', this.attribute('email')],
       ['Created',this.attribute('created_at')],
-      ['Last Active', this.attribute('updated_at')],
       ['Status', 'Active']
     ]
   }
@@ -146,7 +142,6 @@ class TeamComponent extends TableRowComponent {
       ['Name', this.attribute('display_name')], 
       ['Short Name', this.attribute('short_name')],
       ['Created',this.attribute('created_at')],
-      ['Last Active', this.attribute('updated_at')],
       ['Status', 'Active']
     ]
   }
@@ -156,7 +151,8 @@ const mapStateToProps = (state) => {
   return {
     token: state.auth.token,
     user: state.auth.user,
-    messages: state.messages
+    messages: state.messages,
+    account: state.account
   };
 };
 

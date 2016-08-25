@@ -109,6 +109,7 @@ app.get('/api/v1/clip', userController.ensureAuthenticated, clipController.clipG
 app.post('/api/v1/clip', userController.ensureAuthenticated, clipController.clipPost);
 app.get('/api/v1/clip/:id', userController.ensureAuthenticated, clipController.clipGet);
 app.get('/api/v1/team', userController.ensureAuthenticated, teamController.teamGetList);
+app.post('/api/v1/team', userController.ensureAuthenticated, teamController.teamCreate);
 app.get('/api/v1/account/:id', userController.ensureAuthenticated, accountController.accountGet);
 app.post('/api/v1/invitation', userController.ensureAuthenticated, invitationController.sendInvitation);
 app.get('/api/v1/invitation/:code', invitationController.getInvitation);
