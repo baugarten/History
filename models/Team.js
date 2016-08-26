@@ -1,4 +1,5 @@
-import { DuplicateEntry } from '../exceptions';
+var exceptions = require('../exceptions');
+var DuplicateEntry = exceptions.DuplicateEntry;
 var uuid = require('node-uuid');
 var bookshelf = require('../config/bookshelf');
 var User = require('./User');

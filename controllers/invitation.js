@@ -1,4 +1,3 @@
-import { generateToken } from './user';
 var moment = require('moment');
 const bookshelf = require('../config/bookshelf');
 var Invitation = require('../models/Invitation');
@@ -103,7 +102,7 @@ exports.signupWithInvitation = function(req, res) {
             method: 'update'
           })
         ]).then(([user, account]) => {
-          let token = generateToken(user)
+          let token = user.generateToken()
           let userJson = user.toJSON();
           userJson.accounts = [account.toJSON()];
           res.status(200).send({ token: token, user: userJson });

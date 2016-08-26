@@ -1,12 +1,17 @@
-import { defaultErrorMapper, renderError } from '../exceptions';
+var exceptions = require('../exceptions');
 var Team = require('../models/Team');
 
 /**
  * GET /team
  */
 exports.teamGetList = function(req, res) {
-  req.user.teams()
-    .fetch()
+  Team
+    .query((qb) => {
+      qb.rightJoin('accounts', 'teams.account_id', 'accounts.id')
+      qb.innerJoin('user_accounts', 'accounts.id', 'user_accounts.account_id')
+      qb.where('user_accounts.user_id', '=', req.user.get('id'))
+    })
+    .fetchAll()
     .then(function(teams) {
       res.status(200).send({ teams: teams.toJSON() });
     })
@@ -37,7 +42,7 @@ exports.teamCreate = function(req, res) {
     .then(function(team) {
       res.status(200).send({ team: team.toJSON(), msg: `${req.body.team_name} created successfully.` });
     })
-    .catch(renderError(res))
+    .catch(exceptions.renderError(res))
     .catch((err) => {
       console.error("ERR!", err);
       res.sendStatus(500);

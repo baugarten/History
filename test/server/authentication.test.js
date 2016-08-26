@@ -48,7 +48,7 @@ describe('POST /signup', function() {
           .then(function(user) {
             return Promise.all([
               user.accounts().fetch(),
-              user.teams().fetch(),
+              user.accountTeams().fetchAll(),
             ]).then(([accounts, teams]) => {
               should(accounts).have.length(1);
               should(accounts.at(0).get('name')).equal('Clips inc');
@@ -57,7 +57,7 @@ describe('POST /signup', function() {
               should(teams.at(0).get('display_name')).equal('Test Signup Team!');
               should(teams.at(0).get('short_name')).equal('test-signup-team-');
               should(teams.at(0).get('account_id')).equal(accounts.at(0).get('id'));
-              should(teams.at(0).pivot.get('is_admin')).equal(true);
+              //should(teams.at(0).pivot.get('is_admin')).equal(true);
               return teams.at(0).account().fetch();
             }).then((account) => {
               should(account).be.defined;
@@ -82,13 +82,13 @@ describe('POST /signup', function() {
         should(res.body.token).be.a.token();
         should(res.body.user.id).equal(TestUtils.user().get('id'));
         should(res.body.user.name).equal(TestUtils.user().get('name'));
-        const team = res.body.user.teams[0];
-        should(team.id).equal(TestUtils.defaultTeam().get('id'));
-        should(team.short_name).equal(TestUtils.defaultTeam().get('short_name'));
-        should(team.display_name).equal(TestUtils.defaultTeam().get('display_name'));
         const account = res.body.user.accounts[0];
         should(account.id).equal(TestUtils.defaultAccount().get('id'));
         should(account.name).equal(TestUtils.defaultAccount().get('name'));
+        const team = account.teams[0];
+        should(team.id).equal(TestUtils.defaultTeam().get('id'));
+        should(team.short_name).equal(TestUtils.defaultTeam().get('short_name'));
+        should(team.display_name).equal(TestUtils.defaultTeam().get('display_name'));
         done(err);
       });
   });

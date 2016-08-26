@@ -64,7 +64,7 @@ app.use(function(req, res, next) {
   if (req.isAuthenticated()) {
     var payload = req.isAuthenticated();
     new User({ id: payload.sub })
-      .fetch({withRelated: ['accounts', 'teams']})
+      .fetch({withRelated: ['accounts', 'accounts.teams']})
       .then(function(user) {
         req.user = user;
         if (!req.user) {

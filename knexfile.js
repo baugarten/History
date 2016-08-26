@@ -15,7 +15,7 @@ module.exports = {
   }
 };
 
-if (process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'test' || process.env.CLIENT_ENV === 'test') {
   module.exports.seeds = {
     directory: __dirname + '/test/seeds'
   }

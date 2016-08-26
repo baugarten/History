@@ -25,8 +25,21 @@ var User = bookshelf.model('User', {
     return this.belongsToMany('Account', 'user_accounts', 'user_id', 'account_id').withPivot('is_admin');
   },
 
-  teams: function() {
+  accountTeams: function() {
+    let query = Team.query((qb) => {
+      qb.rightJoin('accounts', 'teams.account_id', 'accounts.id')
+      qb.innerJoin('user_accounts', 'accounts.id', 'user_accounts.account_id')
+      qb.where('user_accounts.user_id', '=', this.get('id'))
+    })
+    return query;
+  },
+
+  adminTeams: function() {
     return this.belongsToMany('Team', 'user_teams', 'user_id', 'team_id').withPivot('is_admin');
+  },
+
+  teams: function() {
+    throw new Error("Don't call teams")
   },
 
   clips: function() {
@@ -68,14 +81,6 @@ var User = bookshelf.model('User', {
     return jwt.sign(payload, process.env.TOKEN_SECRET);
   },
 
-  addToTeam: function(team) {
-    return this.teams().attach({
-      user_id: this.get('id'),
-      team_id: team.get('id'),
-      is_admin: true
-    });
-  },
-
   virtuals: {
     gravatar: function() {
       if (!this.get('email')) {
@@ -113,13 +118,13 @@ var User = bookshelf.model('User', {
           }, { 
             transacting: t 
           }),
-          user.teams().attach({
-            user_id: user.get('id'),
-            team_id: team.get('id'),
-            is_admin: true
-          }, {
-            transacting: t
-          }),
+          //user.teams().attach({
+          //  user_id: user.get('id'),
+          //  team_id: team.get('id'),
+          //  //is_admin: true
+          //}, {
+          //  transacting: t
+          //}),
           team.save({ 
             account_id: account.get('id') 
           }, { 

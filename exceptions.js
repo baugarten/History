@@ -38,7 +38,7 @@ function defaultErrorMapper(err) {
   return Promise.reject(`Unknown exception type: ${err}`)
 }
 
-export function renderError(res) {
+module.exports.renderError = function renderError(res) {
   return function(unmappedErr, errorMapper = defaultErrorMapper) {
     errorMapper(unmappedErr)
       .then((err) => {
@@ -52,10 +52,10 @@ export function renderError(res) {
   };
 }
 
-export function BadRequest(msg) {
+module.exports.BadRequest = function BadRequest(msg) {
   return new HTTPException(400, msg);
 }
 
-export function DuplicateEntry(msg) {
+module.exports.DuplicateEntry = function DuplicateEntry(msg) {
   return new Exception(ErrorCodes.DUP_ENTRY, msg);
 }

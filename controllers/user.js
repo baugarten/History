@@ -9,9 +9,10 @@ var Account = require('../models/Account');
 var User = require('../models/User');
 var Invitation = require('../models/Invitation');
 
-export function generateToken(user) {
+exports.generateToken = function(user) {
   return user.generateToken();
 }
+let generateToken = exports.generateToken;
 
 /**
  * Login required middleware
@@ -41,7 +42,7 @@ exports.ensureAuthenticated = function(req, res, next) {
 
     new User({ email: req.body.email })
       .fetch({
-        withRelated: ['teams', 'accounts'],
+        withRelated: ['accounts', 'accounts.teams'],
       })
       .then(function(user) {
         if (!user) {
