@@ -22,6 +22,7 @@ class Header extends React.Component {
       rightNav = (
         <div className="top-bar-right">
           <ul className="vertical medium-horizontal menu">
+            <li><Link to="/guide" activeClassName="active">Getting Started</Link></li>
             <li><Link to={accountUrl} activeClassName="active">{account.name}</Link></li>
             <li><a href="#" onClick={this.handleLogout.bind(this)}>Logout</a></li>
           </ul>

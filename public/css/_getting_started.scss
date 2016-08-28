@@ -1,0 +1,32 @@
+.docs-nav {
+  .active {
+    background-color: #3da6ce;
+    color: white
+  }
+  a {
+    color: #3da6ce;
+  }
+
+  .docs-nav-title {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: bold;
+    line-height: 1;
+    padding-left: 0.9rem;
+    margin-bottom: 0.5rem;
+    border-top: 1px solid #e9e9e9;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+  }
+}
+
+.docs .shell-wrap {
+  margin-bottom: 1rem;
+}
+
+.last-updated {
+  color: #bdbebd;
+  font-size: .8rem;
+}
+

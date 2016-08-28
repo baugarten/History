@@ -4,6 +4,7 @@ import App from './components/App';
 import Hero from './components/Hero';
 import Home from './components/Home';
 import Contact from './components/Contact';
+import UserGuide from './components/UserGuide';
 import Pricing from './components/Pricing';
 import NotFound from './components/NotFound';
 import Account from './components/Account';
@@ -35,6 +36,7 @@ export default function getRoutes(store) {
     <Route path="/" component={App}>
       <IndexRoute component={Hero} onLeave={clearMessages}/>
       <Route path="/contact" component={Contact} onLeave={clearMessages}/>
+      <Route path="/guide" component={UserGuide} onLeave={clearMessages}/>
       <Route path="/pricing" component={Pricing} onLeave={clearMessages}/>
       <Route path="/login" component={Login} onEnter={skipIfAuthenticated} onLeave={clearMessages}/>
       <Route path="/signup" component={Signup} onEnter={skipIfAuthenticated} onLeave={clearMessages}/>

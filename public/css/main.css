@@ -5554,30 +5554,6 @@ table.hover tr:nth-of-type(even):hover {
 .clearfix::after {
   clear: both; }
 
-.pricing-table {
-  border: solid 1px #DDDDDD; }
-  .pricing-table li {
-    border-bottom: dotted 1px #DDDDDD;
-    font-size: 0.75rem;
-    padding: 0.875rem 1.125rem; }
-    .pricing-table li:last-child {
-      border-bottom: 0; }
-  .pricing-table .title {
-    background-color: #333333;
-    color: #EEEEEE;
-    font-size: 0.875rem;
-    border-bottom: 0; }
-  .pricing-table .price {
-    background-color: #F6F6F6;
-    color: #333333;
-    font-size: 1.75rem;
-    border-bottom: 0; }
-  .pricing-table .description {
-    color: #777777;
-    font-size: 0.625rem; }
-  .pricing-table .button {
-    margin: 0; }
-
 .content-header {
   font-size: 2.0rem; }
 
@@ -5589,7 +5565,7 @@ table.hover tr:nth-of-type(even):hover {
 
 .shell-body {
   margin: 0;
-  padding: 5px;
+  padding: 12px;
   list-style: none;
   background: #141414;
   color: #45D40C;
@@ -5617,6 +5593,56 @@ table.hover tr:nth-of-type(even):hover {
 
 .subscribe-button {
   width: 100%; }
+
+.pricing-table {
+  border: solid 1px #DDDDDD; }
+  .pricing-table li {
+    border-bottom: dotted 1px #DDDDDD;
+    font-size: 0.75rem;
+    padding: 0.875rem 1.125rem; }
+    .pricing-table li:last-child {
+      border-bottom: 0; }
+  .pricing-table .title {
+    background-color: #333333;
+    color: #EEEEEE;
+    font-size: 0.875rem;
+    border-bottom: 0; }
+  .pricing-table .price {
+    background-color: #F6F6F6;
+    color: #333333;
+    font-size: 1.75rem;
+    border-bottom: 0; }
+  .pricing-table .description {
+    color: #777777;
+    font-size: 0.625rem; }
+  .pricing-table .button {
+    margin: 0; }
+
+.docs-nav .active {
+  background-color: #3da6ce;
+  color: white; }
+
+.docs-nav a {
+  color: #3da6ce; }
+
+.docs-nav .docs-nav-title {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #999;
+  font-weight: bold;
+  line-height: 1;
+  padding-left: 0.9rem;
+  margin-bottom: 0.5rem;
+  border-top: 1px solid #e9e9e9;
+  margin-top: 1rem;
+  padding-top: 1.5rem; }
+
+.docs .shell-wrap {
+  margin-bottom: 1rem; }
+
+.last-updated {
+  color: #bdbebd;
+  font-size: .8rem; }
 
 html {
   position: relative;

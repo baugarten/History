@@ -42,8 +42,9 @@
 @include foundation-top-bar;
 @include foundation-visibility-classes;
 @include foundation-float-classes;
-@import "pricing_table";
 @import "home";
+@import "pricing_table";
+@import "getting_started";
 // @include foundation-flex-classes;
 
 // Scaffolding
