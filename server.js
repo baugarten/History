@@ -105,6 +105,7 @@ app.post('/auth/google', userController.authGoogle);
 app.get('/auth/google/callback', userController.authGoogleCallback);
 app.post('/auth/github', userController.authGithub);
 app.get('/auth/github/callback', userController.authGithubCallback);
+app.get('/api/v1/login', userController.loginPost);
 app.get('/api/v1/clip', userController.ensureAuthenticated, clipController.clipGetList);
 app.post('/api/v1/clip', userController.ensureAuthenticated, clipController.clipPost);
 app.get('/api/v1/clip/:id', userController.ensureAuthenticated, clipController.clipGet);
